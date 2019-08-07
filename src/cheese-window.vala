@@ -458,7 +458,7 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
 
     if (formats == null)
       return;
-    
+
     unowned Cheese.VideoFormat format;
     int width = 0;
     int height = 0;
