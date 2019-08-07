@@ -33,9 +33,8 @@ stdenv.mkDerivation rec {
     gtk-doc.respect_xml_catalog_files_var_patch
   ];
 
-  preConfigure = ''
-    ./autogen.sh
-  '';
+  # autogen.sh automatically runs configure after doing the automake/autoconf dance.
+  configureScript = "./autogen.sh";
 
   preFixup = ''
     gappsWrapperArgs+=(
