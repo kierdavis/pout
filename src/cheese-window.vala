@@ -1375,6 +1375,13 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
 
     setup_effects_selector ();
 
+    Effect flip_effect = effects_manager.get_effect("Flip");
+    if (flip_effect == null) {
+        error("Could not load 'Flip' effect.");
+    }
+    camera.set_effect (flip_effect);
+    settings.set_string ("selected-effect", flip_effect.name);
+
     this.key_release_event.connect (on_key_release);
   }
 
