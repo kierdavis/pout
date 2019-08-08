@@ -927,15 +927,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
         }
     }
 
-  /**
-   * Create the effects selector.
-   */
-  private void setup_effects_selector ()
-  {
-      effects_manager = new EffectsManager ();
-      effects_manager.load_effects ();
-  }
-
     /**
      * Update the UI when the camera starts playing.
      */
@@ -1122,7 +1113,15 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
 
     set_wide_mode (false);
 
-    setup_effects_selector ();
+    setup_flip_effect ();
+
+    this.key_release_event.connect (on_key_release);
+  }
+
+  private void setup_flip_effect()
+  {
+    effects_manager = new EffectsManager ();
+    effects_manager.load_effects ();
 
     Effect flip_effect = effects_manager.get_effect("Flip");
     if (flip_effect == null) {
@@ -1130,8 +1129,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
     }
     camera.set_effect (flip_effect);
     settings.set_string ("selected-effect", flip_effect.name);
-
-    this.key_release_event.connect (on_key_release);
   }
 
     public Clutter.Actor get_video_preview ()
