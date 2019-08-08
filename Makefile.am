@@ -211,7 +211,6 @@ nodist_cheese_SOURCES = \
 cheese_SOURCES = \
 	src/cheese-application.vala \
 	src/cheese-countdown.vala \
-	src/cheese-effects-manager.vala \
 	src/cheese-preferences.vala \
 	src/cheese-window.vala \
 	src/cheese-main.vala \
