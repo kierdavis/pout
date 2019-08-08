@@ -93,7 +93,7 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
   private Cheese.FileUtil fileutil;
   private Cheese.Flash    flash;
 
-  private Cheese.EffectsManager    effects_manager;
+  private Cheese.Effect flip_effect;
 
   /**
    * Responses from the delete files confirmation dialog.
@@ -934,11 +934,7 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
     {
         show_error (null);
 
-        Effect effect = effects_manager.get_effect (settings.get_string ("selected-effect"));
-        if (effect != null)
-        {
-            camera.set_effect (effect);
-        }
+        camera.set_effect (flip_effect);
     }
 
     /**
@@ -1120,15 +1116,18 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
 
   private void setup_flip_effect()
   {
-    effects_manager = new EffectsManager ();
-    effects_manager.load_effects ();
-
-    Effect flip_effect = effects_manager.get_effect("Flip");
-    if (flip_effect == null) {
-        error("Could not load 'Flip' effect.");
-    }
+    flip_effect = get_flip_effect();
     camera.set_effect (flip_effect);
-    settings.set_string ("selected-effect", flip_effect.name);
+  }
+
+  private Effect get_flip_effect() {
+    var effects = Cheese.Effect.load_effects ();
+    foreach (var effect in effects) {
+      if (effect.name == "Flip") {
+        return effect;
+      }
+    }
+    error("Could not load 'Flip' effect.");
   }
 
     public Clutter.Actor get_video_preview ()
