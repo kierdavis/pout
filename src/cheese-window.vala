@@ -713,7 +713,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
     }
   }
 
-  private int  burst_count;
   private uint burst_callback_id;
 
   /**
@@ -724,10 +723,9 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
    */
   private bool burst_take_photo ()
   {
-    if (is_bursting && burst_count < settings.get_int ("burst-repeat"))
+    if (is_bursting)
     {
       this.take_photo ();
-      burst_count++;
       return true;
     }
     else
@@ -878,7 +876,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
       is_bursting = false;
       this.enable_mode_change ();
       take_action_button.tooltip_text = _("Take multiple photos");
-      burst_count = 0;
       fileutil.reset_burst ();
       GLib.Source.remove (burst_callback_id);
     }
