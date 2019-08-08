@@ -120,66 +120,6 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkBox" id="effects_actions_pack">
-                        <property name="orientation">horizontal</property>
-                        <property name="halign">end</property>
-                        <property name="visible">True</property>
-                        <style>
-                          <class name="linked"/>
-                        </style>
-                        <child>
-                          <object class="GtkButton" id="effects_prev_page_button">
-                            <property name="action-name">win.effects-previous</property>
-                            <property name="tooltip_text" translatable="yes">Navigate to the previous page of effects</property>
-                            <property name="visible">True</property>
-                            <child>
-                              <object class="GtkImage" id="effects_prev_page_button_image">
-                                <property name="icon-name">go-previous-symbolic</property>
-                                <property name="visible">True</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkToggleButton" id="effects_toggle_button">
-                            <property name="vexpand">False</property>
-                            <property name="hexpand">False</property>
-                            <property name="action-name">app.effects</property>
-                            <property name="tooltip_text" translatable="yes">Effects</property>
-                            <property name="visible">True</property>
-                            <child>
-                              <object class="GtkBox" id="effects_toggle_button_internal_hbox">
-                                <property name="orientation">horizontal</property>
-                                <property name="spacing">2</property>
-                                <property name="visible">True</property>
-                                <child>
-                                  <object class="GtkLabel" id="effects_toggle_button_internal_label">
-                                    <property name="label" translatable="yes">_Effects</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="visible">True</property>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="effects_next_page_button">
-                            <property name="use-action-appearance">False</property>
-                            <property name="action-name">win.effects-next</property>
-                            <property name="tooltip_text" translatable="yes">Navigate to the next page of effects</property>
-                            <property name="visible">True</property>
-                            <child>
-                              <object class="GtkImage" id="effects_next_page_button_image">
-                                <property name="icon-name">go-next-symbolic</property>
-                                <property name="visible">True</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
                       <object class="GtkBox" id="leave_fullscreen_button_box">
                         <property name="orientation">horizontal</property>
                         <property name="visible">False</property>
@@ -230,7 +170,6 @@
     <property name="mode">GTK_SIZE_GROUP_HORIZONTAL</property>
     <widgets>
       <widget name="take_action_button"/>
-      <widget name="effects_actions_pack"/>
     </widgets>
   </object>
 </interface>

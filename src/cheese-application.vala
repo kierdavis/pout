@@ -42,7 +42,6 @@ public class Cheese.Application : Gtk.Application
         { "fullscreen", on_action_toggle, null, "false",
           on_fullscreen_change },
         { "wide-mode", on_action_toggle, null, "false", on_wide_mode_change },
-        { "effects", on_action_toggle, null, "false", on_effects_change },
         { "preferences", on_preferences },
         { "help", on_help },
         { "about", on_about },
@@ -408,30 +407,6 @@ public class Cheese.Application : Gtk.Application
         common_init ();
 
         main_window.set_wide_mode (state);
-
-        action.set_state (value);
-    }
-
-    /**
-     * Handle the effects state being changed.
-     *
-     * @param action the action that emitted the signal
-     * @param value the state to switch to
-     */
-    private void on_effects_change (SimpleAction action, Variant? value)
-    {
-        return_if_fail (value != null);
-
-        var state = value.get_boolean ();
-
-        var shoot = this.lookup_action ("shoot") as SimpleAction;
-        var mode = this.lookup_action ("mode") as SimpleAction;
-
-        // Effects selection and shooting/mode changes are mutually exclusive.
-        shoot.set_enabled (!state);
-        mode.set_enabled (!state);
-
-        main_window.set_effects (state);
 
         action.set_state (value);
     }

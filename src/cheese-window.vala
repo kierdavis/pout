@@ -38,9 +38,7 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
         { "file-open", on_file_open },
         { "file-saveas", on_file_saveas },
         { "file-trash", on_file_trash },
-        { "file-delete", on_file_delete },
-        { "effects-next", on_effects_next },
-        { "effects-previous", on_effects_previous }
+        { "file-delete", on_file_delete }
     };
 
     private MediaMode current_mode;
@@ -70,8 +68,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
     [GtkChild]
     private Gtk.Image take_action_button_image;
     [GtkChild]
-    private Gtk.ToggleButton effects_toggle_button;
-    [GtkChild]
     private Gtk.Widget buttons_area;
     [GtkChild]
     private Gtk.Button switch_camera_button;
@@ -86,15 +82,10 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
     private Clutter.Text error_layer;
     private Clutter.Text timeout_layer;
 
-  private Clutter.Actor current_effects_grid;
-  private uint current_effects_page = 0;
-  private List<Clutter.Actor> effects_grids;
-
   private bool is_fullscreen;
   private bool is_wide_mode;
   private bool is_recording;       /* Video Recording Flag */
   private bool is_bursting;
-  private bool is_effects_selector_active;
   private bool action_cancelled;
     private bool was_maximized;
 
@@ -103,8 +94,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
   private Cheese.Flash    flash;
 
   private Cheese.EffectsManager    effects_manager;
-
-  private Cheese.Effect selected_effect;
 
   /**
    * Responses from the delete files confirmation dialog.
@@ -797,10 +786,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
       {
         return false;
       }
-      else if (is_effects_selector_active)
-      {
-        effects_toggle_button.set_active (false);
-      }
     }
     return false;
   }
@@ -930,7 +915,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
     {
         if (error != null)
         {
-            current_effects_grid.hide ();
             video_preview.hide ();
             error_layer.text = error;
             error_layer.show ();
@@ -939,170 +923,8 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
         {
             error_layer.hide ();
 
-            if (is_effects_selector_active)
-            {
-                current_effects_grid.show ();
-            }
-            else
-            {
-                video_preview.show ();
-            }
-        }
-    }
-
-    /**
-     * Toggle the display of the effect selector.
-     *
-     * @param effects whether effects should be enabled
-     */
-    public void set_effects (bool effects)
-    {
-        toggle_effects_selector (effects);
-    }
-
-  /**
-   * Change the selected effect, as a new one was selected.
-   *
-   * @param tap unused
-   * @param source the actor (with associated effect) that was selected
-   */
-  public void on_selected_effect_change (Clutter.TapAction tap,
-                                         Clutter.Actor source)
-  {
-    /* Disable the effects selector after selecting an effect. */
-    effects_toggle_button.set_active (false);
-
-    selected_effect = source.get_data ("effect");
-    camera.set_effect (selected_effect);
-    settings.set_string ("selected-effect", selected_effect.name);
-  }
-
-    /**
-     * Navigate back one page of effects.
-     */
-    private void on_effects_previous ()
-    {
-        if (is_previous_effects_page ())
-        {
-            activate_effects_page ((int)current_effects_page - 1);
-        }
-    }
-
-    /**
-     * Navigate forward one page of effects.
-     */
-    private void on_effects_next ()
-    {
-        if (is_next_effects_page ())
-        {
-            activate_effects_page ((int)current_effects_page + 1);
-        }
-    }
-
-  /**
-   * Switch to the supplied page of effects.
-   *
-   * @param number the effects page to switch to
-   */
-  private void activate_effects_page (int number)
-  {
-    if (!is_effects_selector_active)
-      return;
-    current_effects_page = number;
-    if (viewport_layout.get_children ().index (current_effects_grid) != -1)
-    {
-      viewport_layout.remove_child (current_effects_grid);
-    }
-    current_effects_grid = effects_grids.nth_data (number);
-    current_effects_grid.opacity = 0;
-    viewport_layout.add_child (current_effects_grid);
-    current_effects_grid.save_easing_state ();
-    current_effects_grid.set_easing_mode (Clutter.AnimationMode.LINEAR);
-    current_effects_grid.set_easing_duration (500);
-    current_effects_grid.opacity = 255;
-    current_effects_grid.restore_easing_state ();
-
-
-    uint i = 0;
-    foreach (var effect in effects_manager.effects)
-    {
-        uint page_nr = i / EFFECTS_PER_PAGE;
-        if (page_nr == number)
-        {
-            if (!effect.is_preview_connected ())
-            {
-                Clutter.Actor texture = effect.get_data<Clutter.Actor> ("texture");
-                camera.connect_effect_texture (effect, texture);
-            }
-            effect.enable_preview ();
-        }
-        else
-        {
-            if (effect.is_preview_connected ())
-            {
-                effect.disable_preview ();
-            }
-        }
-
-	    i++;
-    }
-
-    setup_effects_page_switch_sensitivity ();
-  }
-
-    /**
-     * Control the sensitivity of the effects page navigation buttons.
-     */
-    private void setup_effects_page_switch_sensitivity ()
-    {
-        var effects_next = this.lookup_action ("effects-next") as SimpleAction;
-        var effects_previous = this.lookup_action ("effects-previous") as SimpleAction;
-
-        effects_next.set_enabled (is_effects_selector_active
-                                  && is_next_effects_page ());
-        effects_previous.set_enabled (is_effects_selector_active
-                                      && is_previous_effects_page ());
-    }
-
-    private bool is_next_effects_page ()
-    {
-        // Calculate the number of effects visible up to the current page.
-        return (current_effects_page + 1) * EFFECTS_PER_PAGE < effects_manager.effects.length ();
-    }
-
-    private bool is_previous_effects_page ()
-    {
-        return current_effects_page != 0;
-    }
-
-    /**
-     * Toggle the visibility of the effects selector.
-     *
-     * @param active whether the selector should be active
-     */
-    private void toggle_effects_selector (bool active)
-    {
-        is_effects_selector_active = active;
-
-        if (effects_grids.length () == 0)
-        {
-            show_error (active ? _("No effects found") : null);
-        }
-        else if (active)
-        {
-            video_preview.hide ();
-            current_effects_grid.show ();
-            activate_effects_page ((int)current_effects_page);
-        }
-        else
-        {
-            current_effects_grid.hide ();
             video_preview.show ();
         }
-
-        camera.toggle_effects_pipeline (active);
-        setup_effects_page_switch_sensitivity ();
-        update_header_bar_title ();
     }
 
   /**
@@ -1110,81 +932,8 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
    */
   private void setup_effects_selector ()
   {
-    if (current_effects_grid == null)
-    {
       effects_manager = new EffectsManager ();
       effects_manager.load_effects ();
-
-      /* Must initialize effects_grids before returning, as it is dereferenced later, bug 654671. */
-      effects_grids = new List<Clutter.Actor> ();
-
-      if (effects_manager.effects.length () == 0)
-      {
-        warning ("gnome-video-effects is not installed.");
-        return;
-      }
-
-      foreach (var effect in effects_manager.effects)
-      {
-          Clutter.GridLayout grid_layout = new GridLayout ();
-          var grid = new Clutter.Actor ();
-          grid.set_layout_manager (grid_layout);
-          effects_grids.append (grid);
-          grid_layout.set_column_spacing (10);
-          grid_layout.set_row_spacing (10);
-      }
-
-      uint i = 0;
-      foreach (var effect in effects_manager.effects)
-      {
-        Clutter.Actor texture = new Clutter.Actor ();
-        Clutter.BinLayout layout = new Clutter.BinLayout (Clutter.BinAlignment.CENTER,
-                                                          Clutter.BinAlignment.CENTER);
-        var box = new Clutter.Actor ();
-        box.set_layout_manager (layout);
-        Clutter.Text      text = new Clutter.Text ();
-        var rect = new Clutter.Actor ();
-
-        rect.opacity = 128;
-        rect.background_color = Clutter.Color.from_string ("black");
-
-        texture.content_gravity = Clutter.ContentGravity.RESIZE_ASPECT;
-        box.add_child (texture);
-        box.reactive = true;
-        box.min_height = 40;
-        box.min_width = 50;
-        var tap = new Clutter.TapAction ();
-        box.add_action (tap);
-        tap.tap.connect (on_selected_effect_change);
-        box.set_data ("effect", effect);
-        effect.set_data ("texture", texture);
-
-        text.text  = effect.name;
-        text.color = Clutter.Color.from_string ("white");
-
-        rect.height = text.height + 5;
-        rect.x_align = Clutter.ActorAlign.FILL;
-        rect.y_align = Clutter.ActorAlign.END;
-        rect.x_expand = true;
-        rect.y_expand = true;
-        box.add_child (rect);
-
-        text.x_align = Clutter.ActorAlign.CENTER;
-        text.y_align = Clutter.ActorAlign.END;
-        text.x_expand = true;
-        text.y_expand = true;
-        box.add_child (text);
-
-        var grid_layout = effects_grids.nth_data (i / EFFECTS_PER_PAGE).layout_manager as GridLayout;
-        grid_layout.attach (box, ((int)(i % EFFECTS_PER_PAGE)) % 3,
-                            ((int)(i % EFFECTS_PER_PAGE)) / 3, 1, 1);
-
-        i++;
-      }
-
-      setup_effects_page_switch_sensitivity ();
-      current_effects_grid = effects_grids.nth_data (0);
-    }
   }
 
     /**
@@ -1435,12 +1184,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
      */
     private void update_header_bar_title ()
     {
-        if (is_effects_selector_active)
-        {
-            set_window_title (_("Choose an Effect"));
-        }
-        else
-        {
             switch (current_mode)
             {
                 case MediaMode.PHOTO:
@@ -1455,7 +1198,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
                     set_window_title (_("Take Multiple Photos"));
                     break;
             }
-        }
     }
     /**
      * Set the camera.
