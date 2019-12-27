@@ -7,8 +7,7 @@
 with gnome3;
 
 stdenv.mkDerivation rec {
-  pname = "pout";
-  version = "0.1";
+  name = "pout";
 
   src = ./.;
 
