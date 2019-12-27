@@ -145,8 +145,8 @@ noinst_libcheese_headers = \
 	libcheese/cheese-fileutil.h
 
 # FIXME when we have a .pc file, and sonames
-cheesedir = $(includedir)/cheese
-cheese_HEADERS = \
+poutdir = $(includedir)/cheese
+pout_HEADERS = \
 	libcheese/cheese-avatar-widget.h \
 	libcheese/cheese-avatar-chooser.h \
 	libcheese/cheese-camera.h \
@@ -202,13 +202,13 @@ noinst_resource_files = \
 src/cheese-resource.c src/cheese-resource.h: data/org.gnome.Cheese.gresource.xml Makefile $(noinst_resource_files)
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir)/data --generate --c-name cheese $<
 
-bin_PROGRAMS = cheese
+bin_PROGRAMS = pout
 
-nodist_cheese_SOURCES = \
+nodist_pout_SOURCES = \
 	src/cheese-resource.c
 
 # cheese-main.vala must go at the end of the Vala sources.
-cheese_SOURCES = \
+pout_SOURCES = \
 	src/cheese-application.vala \
 	src/cheese-countdown.vala \
 	src/cheese-preferences.vala \
@@ -218,7 +218,7 @@ cheese_SOURCES = \
 	src/thumbview/cheese-thumbnail.c \
 	src/thumbview/eog-thumb-nav.c
 
-nodist_cheese_HEADERS = \
+nodist_pout_HEADERS = \
 	src/cheese-resource.h
 
 noinst_HEADERS = \
@@ -226,7 +226,7 @@ noinst_HEADERS = \
 	src/thumbview/cheese-thumbnail.h \
 	src/thumbview/eog-thumb-nav.h
 
-cheese_CPPFLAGS = \
+pout_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
 	$(CHEESE_CFLAGS) \
 	$(CHEESE_GTK_CFLAGS) \
@@ -234,9 +234,9 @@ cheese_CPPFLAGS = \
 	-I$(top_srcdir)/libcheese \
 	-I$(top_srcdir)/src
 
-cheese_CFLAGS = -export-dynamic -w
+pout_CFLAGS = -export-dynamic -w
 
-cheese_LDADD = \
+pout_LDADD = \
 	libcheese.la \
 	libcheese-gtk.la \
 	$(CHEESE_LIBS) \
