@@ -1,4 +1,4 @@
-{ stdenv, intltool, fetchurl, wrapGAppsHook, libcanberra-gtk3
+{ stdenv, intltool, wrapGAppsHook, libcanberra-gtk3
 , pkgconfig, gtk3, glib, clutter-gtk, clutter-gst, udev, gst_all_1, itstool
 , libgudev, vala, docbook_xml_dtd_43, docbook_xsl, appstream-glib
 , libxslt, gtk-doc, libtool
