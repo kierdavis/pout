@@ -3,6 +3,6 @@
 
 // Expect this API surface to develop rapidly...
 
-extern int pout_compare_formats(const CheeseVideoFormatFull *c, const CheeseVideoFormatFull *d);
+extern gint pout_compare_formats(gconstpointer a, gconstpointer b);
 
 #endif

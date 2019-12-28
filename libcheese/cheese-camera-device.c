@@ -163,7 +163,7 @@ compare_formats (gconstpointer a, gconstpointer b)
   const CheeseVideoFormatFull *d = b;
 
   /* descending sort for rectangle area */
-  gint result = pout_compare_formats(c, d);
+  gint result = pout_compare_formats(a, b);
   printf("[pout] compare_formats({%d, %d}, {%d, %d}) -> %d\n", (int)c->width, (int)c->height, (int)d->width, (int)d->height, (int)result);
   return result;
 }

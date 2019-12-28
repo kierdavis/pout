@@ -11,4 +11,4 @@ name = "pout"
 crate-type = ["staticlib"]
 
 [dependencies]
-cty = "0.2.1"
+gtypes = "0.2.0"

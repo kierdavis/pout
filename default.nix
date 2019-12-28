@@ -11,7 +11,7 @@ let
   rustPkg = buildRustPackage rec {
     name = "pout-rust";
     src = nix-gitignore.gitignoreSourcePure ["target"] ./rust;
-    cargoSha256 = "1d885n23rplvhzlz1p4lv20ninh8z6xjlys760h5sv34qsrm2nfn";
+    cargoSha256 = "1xsbzkfl7yb0z1bdaz6qn21a5b70zgc2yqsksbk6syng6r81ld8w";
     doCheck = false;
   };
 
