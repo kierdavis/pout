@@ -25,25 +25,13 @@
 #include <gtk/gtk.h>
 #include <gst/gst.h>
 #include <clutter-gtk/clutter-gtk.h>
-#include "cheese-widget.h"
 #include "cheese-gtk.h"
-
-/* CheeseWidget */
-static void widget (void)
-{
-    GtkWidget *widget;
-
-    widget = gtk_test_create_widget (CHEESE_TYPE_WIDGET, NULL);
-    g_assert (widget != NULL);
-}
 
 int main (int argc, gchar *argv[])
 {
     gtk_test_init (&argc, &argv, NULL);
     if (!cheese_gtk_init (&argc, &argv))
         return EXIT_FAILURE;
-
-    g_test_add_func ("/libcheese-gtk/widget", widget);
 
     return g_test_run ();
 }

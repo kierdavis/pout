@@ -6,10 +6,7 @@ enum_data = \
 	libcheese/cheese-enums.c \
 	libcheese/cheese-enums.h
 
-cheese_enum_headers = \
-	$(top_srcdir)/libcheese/cheese-widget.h
-
-libcheese/cheese-enums.c: $(cheese_enum_headers) libcheese/cheese-enums.h
+libcheese/cheese-enums.c: libcheese/cheese-enums.h
 	$(AM_V_GEN)$(GLIB_MKENUMS) \
 		--fhead "#include \"cheese-enums.h\"\n\n" \
 		--fprod "/* enumerations from \"@filename@\" */\n" \
@@ -22,9 +19,9 @@ libcheese/cheese-enums.c: $(cheese_enum_headers) libcheese/cheese-enums.h
 		--vtail "      { 0, NULL, NULL }\n    };\n\n" \
 		--vtail "    type = g_@type@_register_static (\"@EnumName@\", _@enum_name@_values);\n  }\n\n" \
 		--vtail "  return type;\n}\n\n" \
-		$(cheese_enum_headers) > $@
+		> $@
 
-libcheese/cheese-enums.h: $(cheese_enum_headers)
+libcheese/cheese-enums.h:
 	$(AM_V_GEN)$(GLIB_MKENUMS) \
 		--fhead "#ifndef CHEESE_ENUMS_H_\n" \
 		--fhead "#define CHEESE_ENUMS_H_\n\n" \
@@ -35,7 +32,7 @@ libcheese/cheese-enums.h: $(cheese_enum_headers)
 		--vhead "#define CHEESE_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
 		--ftail "G_END_DECLS\n\n" \
 		--ftail "#endif /* CHEESE_ENUMS_H_ */" \
-		$(cheese_enum_headers) > $@
+		> $@
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALEDIR=\""$(datadir)/locale"\" \
@@ -94,13 +91,10 @@ libcheese_gtk_la_LDFLAGS = \
 
 libcheese_gtk_la_SOURCES = \
 	libcheese/totem-aspect-frame.c \
-	libcheese/cheese-gtk.c \
-	libcheese/cheese-widget.c
+	libcheese/cheese-gtk.c
 
 noinst_libcheese_gtk_headers = \
-	libcheese/totem-aspect-frame.h \
-	libcheese/cheese-widget.h \
-	libcheese/cheese-widget-private.h
+	libcheese/totem-aspect-frame.h
 
 libcheese_la_CFLAGS = \
 	$(CHEESE_CFLAGS) \
@@ -144,8 +138,7 @@ pout_HEADERS = \
 	libcheese/cheese-camera-device-monitor.h \
 	libcheese/cheese-effect.h \
 	libcheese/cheese-gtk.h \
-	libcheese/cheese.h \
-	libcheese/cheese-widget.h
+	libcheese/cheese.h
 
 if HAVE_INTROSPECTION
 -include $(INTROSPECTION_MAKEFILE)
@@ -234,8 +227,7 @@ pout_LDADD = \
 
 EXAMPLES = \
 	tests/cheese-test-camera \
-	tests/cheese-test-monitor \
-	tests/cheese-test-widget
+	tests/cheese-test-monitor
 
 if HAVE_XTEST
 noinst_PROGRAMS = \
@@ -252,12 +244,10 @@ EXAMPLES_CPPFLAGS = \
 
 tests_cheese_test_camera_SOURCES = tests/cheese-test-camera.c
 tests_cheese_test_monitor_SOURCES = tests/cheese-test-monitor.c
-tests_cheese_test_widget_SOURCES = tests/cheese-test-widget.c
 tests_test_webcam_button_SOURCES = tests/test-webcam-button.c
 
 tests_cheese_test_camera_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_cheese_test_monitor_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
-tests_cheese_test_widget_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_test_webcam_button_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 
 tests_cheese_test_camera_LDADD = \
@@ -265,11 +255,6 @@ tests_cheese_test_camera_LDADD = \
 	$(CHEESE_GTK_LIBS) \
 	libcheese.la
 tests_cheese_test_monitor_LDADD = \
-	$(CHEESE_LIBS) \
-	$(CHEESE_GTK_LIBS) \
-	libcheese.la \
-	libcheese-gtk.la
-tests_cheese_test_widget_LDADD = \
 	$(CHEESE_LIBS) \
 	$(CHEESE_GTK_LIBS) \
 	libcheese.la \
