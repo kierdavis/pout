@@ -93,20 +93,14 @@ libcheese_gtk_la_LDFLAGS = \
 	$(AM_LDFLAGS)
 
 libcheese_gtk_la_SOURCES = \
-	libcheese/cheese-avatar-chooser.c \
-	libcheese/cheese-avatar-widget.c \
 	libcheese/totem-aspect-frame.c \
 	libcheese/cheese-gtk.c \
-	libcheese/cheese-widget.c \
-	libcheese/um-crop-area.c
+	libcheese/cheese-widget.c
 
 noinst_libcheese_gtk_headers = \
 	libcheese/totem-aspect-frame.h \
-	libcheese/cheese-avatar-chooser.h \
-	libcheese/cheese-avatar-widget.h \
 	libcheese/cheese-widget.h \
-	libcheese/cheese-widget-private.h \
-	libcheese/um-crop-area.h
+	libcheese/cheese-widget-private.h
 
 libcheese_la_CFLAGS = \
 	$(CHEESE_CFLAGS) \
@@ -145,8 +139,6 @@ noinst_libcheese_headers = \
 # FIXME when we have a .pc file, and sonames
 poutdir = $(includedir)/cheese
 pout_HEADERS = \
-	libcheese/cheese-avatar-widget.h \
-	libcheese/cheese-avatar-chooser.h \
 	libcheese/cheese-camera.h \
 	libcheese/cheese-camera-device.h \
 	libcheese/cheese-camera-device-monitor.h \
@@ -242,7 +234,6 @@ pout_LDADD = \
 
 EXAMPLES = \
 	tests/cheese-test-camera \
-	tests/cheese-test-chooser \
 	tests/cheese-test-monitor \
 	tests/cheese-test-widget
 
@@ -260,13 +251,11 @@ EXAMPLES_CPPFLAGS = \
 	-I$(top_srcdir)/libcheese
 
 tests_cheese_test_camera_SOURCES = tests/cheese-test-camera.c
-tests_cheese_test_chooser_SOURCES = tests/cheese-test-chooser.c
 tests_cheese_test_monitor_SOURCES = tests/cheese-test-monitor.c
 tests_cheese_test_widget_SOURCES = tests/cheese-test-widget.c
 tests_test_webcam_button_SOURCES = tests/test-webcam-button.c
 
 tests_cheese_test_camera_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
-tests_cheese_test_chooser_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_cheese_test_monitor_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_cheese_test_widget_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_test_webcam_button_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
@@ -275,11 +264,6 @@ tests_cheese_test_camera_LDADD = \
 	$(CHEESE_LIBS) \
 	$(CHEESE_GTK_LIBS) \
 	libcheese.la
-tests_cheese_test_chooser_LDADD = \
-	$(CHEESE_LIBS) \
-	$(CHEESE_GTK_LIBS) \
-	libcheese.la \
-	libcheese-gtk.la
 tests_cheese_test_monitor_LDADD = \
 	$(CHEESE_LIBS) \
 	$(CHEESE_GTK_LIBS) \
@@ -356,7 +340,6 @@ check_PROGRAMS = \
 	tests/test-libcheese-gtk
 
 tests_test_libcheese_gtk_SOURCES = \
-	libcheese/um-crop-area.c \
 	tests/test-libcheese-gtk.c
 tests_test_libcheese_gtk_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_test_libcheese_gtk_LDADD = \
