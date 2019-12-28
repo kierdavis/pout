@@ -2,10 +2,7 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
 SUBDIRS = po help
 
-LIBPOUTRUST = rust/target/release/libpout.a
-
-$(LIBPOUTRUST): rust/Cargo.toml rust/src/*.rs
-	cd rust && cargo build --release
+LIBPOUTRUST = rust/libpout.a
 
 enum_data = \
 	libcheese/cheese-enums.c \

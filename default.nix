@@ -3,14 +3,26 @@
 , libgudev, vala, appstream-glib
 , libtool
 , librsvg, gdk_pixbuf, gnome3, libxml2
-, cargo, nix-gitignore }:
+, buildRustPackage, nix-gitignore }:
 
 with gnome3;
 
-stdenv.mkDerivation rec {
+let
+  rustPkg = buildRustPackage rec {
+    name = "pout-rust";
+    src = nix-gitignore.gitignoreSourcePure ["target"] ./rust;
+    cargoSha256 = "1d885n23rplvhzlz1p4lv20ninh8z6xjlys760h5sv34qsrm2nfn";
+    doCheck = false;
+  };
+
+in stdenv.mkDerivation rec {
   name = "pout";
 
   src = nix-gitignore.gitignoreSourcePure ["rust/target"] ./.;
+
+  postUnpack = ''
+    cp ${rustPkg}/lib/libpout.a $sourceRoot/rust/libpout.a
+  '';
 
   passthru = {
     updateScript = gnome3.updateScript { packageName = "cheese"; attrPath = "gnome3.cheese"; };
@@ -18,7 +30,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     pkgconfig intltool itstool vala wrapGAppsHook libxml2 appstream-glib
-    yelp-tools gnome-common libtool cargo
+    yelp-tools gnome-common libtool
   ];
   buildInputs = [ gtk3 glib gnome-video-effects
                   gdk_pixbuf adwaita-icon-theme librsvg udev gst_all_1.gstreamer
