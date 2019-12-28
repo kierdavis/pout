@@ -111,14 +111,6 @@ namespace Cheese
     public void reset_burst ();
   }
 
-  [CCode (cheader_filename = "cheese-flash.h")]
-  public class Flash : Gtk.Window
-  {
-    [CCode (has_construct_function = false)]
-    public Flash (Gtk.Widget parent);
-    public void fire ();
-  }
-
   [Compact]
   [CCode (type_id = "CHEESE_TYPE_VIDEO_FORMAT", cheader_filename = "cheese-camera-device.h", copy_function = "g_boxed_copy", free_function = "g_boxed_free")]
   public class VideoFormat

@@ -26,7 +26,6 @@
 #include <gst/gst.h>
 #include <clutter-gtk/clutter-gtk.h>
 #include "cheese-avatar-chooser.h"
-#include "cheese-flash.h"
 #include "cheese-widget.h"
 #include "um-crop-area.h"
 #include "cheese-gtk.h"
@@ -44,24 +43,6 @@ avatar_chooser (void)
     select_button = gtk_test_find_widget (chooser, "Select", GTK_TYPE_BUTTON);
     g_assert (select_button != NULL);
     g_assert (GTK_IS_BUTTON (select_button));
-}
-
-/* CheeseFlash */
-static void
-flash (void)
-{
-    GtkWidget *flash, *window;
-
-    window = gtk_test_create_simple_window ("CheeseFlash", "CheeseFlash test");
-    g_assert (window != NULL);
-
-    /* Window must be realised to have a GdkWindow. */
-    gtk_widget_show (window);
-
-    flash = gtk_test_create_widget (CHEESE_TYPE_FLASH, "parent", window, NULL);
-    g_assert (flash != NULL);
-
-    cheese_flash_fire (CHEESE_FLASH (flash));
 }
 
 /* UmCropArea. */
@@ -101,7 +82,6 @@ int main (int argc, gchar *argv[])
         return EXIT_FAILURE;
 
     g_test_add_func ("/libcheese-gtk/avatar_chooser", avatar_chooser);
-    g_test_add_func ("/libcheese-gtk/flash", flash);
     g_test_add_func ("/libcheese-gtk/um_crop_area", um_crop_area);
     g_test_add_func ("/libcheese-gtk/widget", widget);
 

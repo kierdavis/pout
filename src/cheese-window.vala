@@ -91,7 +91,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
 
   private Cheese.Camera   camera;
   private Cheese.FileUtil fileutil;
-  private Cheese.Flash    flash;
 
   private Cheese.Effect flip_effect;
 
@@ -673,10 +672,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
     {
       string file_name = fileutil.get_new_media_filename (this.current_mode);
 
-      if (settings.get_boolean ("flash"))
-      {
-        this.flash.fire ();
-      }
       CanberraGtk.play_for_widget (this.main_vbox, 0,
                                    Canberra.PROP_EVENT_ID, "camera-shutter",
                                    Canberra.PROP_MEDIA_ROLE, "event",
@@ -1040,7 +1035,6 @@ public class Cheese.MainWindow : Gtk.ApplicationWindow
   {
         clutter_builder = new Clutter.Script ();
     fileutil        = new FileUtil ();
-    flash           = new Flash (this);
     settings        = new GLib.Settings ("org.gnome.Cheese");
 
         var menu = application.get_menu_by_id ("thumbview-menu");

@@ -53,8 +53,6 @@ public class Cheese.PreferencesDialog : Gtk.Dialog
 
     [GtkChild]
     private Gtk.CheckButton countdown_check;
-    [GtkChild]
-    private Gtk.CheckButton flash_check;
   
     private MediaMode current_mode;
 
@@ -175,8 +173,6 @@ public PreferencesDialog (Cheese.Camera camera)
       burst_delay_spin.value  = settings.get_int ("burst-delay") / 1000;
 
         settings.bind ("countdown", countdown_check, "active",
-                       SettingsBindFlags.DEFAULT);
-        settings.bind ("flash", flash_check, "active",
                        SettingsBindFlags.DEFAULT);
     }
 

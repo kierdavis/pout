@@ -24,7 +24,6 @@
 
 #include "cheese-camera.h"
 #include "cheese-widget-private.h"
-#include "cheese-flash.h"
 #include "cheese-avatar-chooser.h"
 #include "cheese-avatar-widget.h"
 #include "um-crop-area.h"
