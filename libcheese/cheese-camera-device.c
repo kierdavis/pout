@@ -24,6 +24,8 @@
   #include <config.h>
 #endif
 
+#include <stdio.h>
+
 #include <glib.h>
 #include <glib/gi18n-lib.h>
 #include <gio/gio.h>
@@ -159,7 +161,9 @@ compare_formats (gconstpointer a, gconstpointer b)
   const CheeseVideoFormatFull *d = b;
 
   /* descending sort for rectangle area */
-  return (d->width * d->height - c->width * c->height);
+  gint result = (d->width * d->height - c->width * c->height);
+  printf("[pout] compare_formats({%d, %d}, {%d, %d}) -> %d\n", (int)c->width, (int)c->height, (int)d->width, (int)d->height, (int)result);
+  return result;
 }
 
 /*
