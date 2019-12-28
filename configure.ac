@@ -158,32 +158,6 @@ AS_IF([test "x$GLIB_MKENUMS" = "x"],
 AX_REQUIRE_DEFINED([GOBJECT_INTROSPECTION_CHECK])
 GOBJECT_INTROSPECTION_CHECK([0.6.7])
 
-# API documentation
-AX_REQUIRE_DEFINED([GTK_DOC_CHECK])
-GTK_DOC_CHECK([1.14], [--flavour no-tmpl])
-
-# Manpage, generated with gtk-doc and xsltproc from DocBook XML.
-AC_ARG_ENABLE([man],
-  [AS_HELP_STRING([--disable-man], [Disable building the man page])])
-
-AS_IF([test "x$enable_man" != "xno"],
-  [AC_CHECK_PROG([have_xsltproc], [xsltproc], [yes], [no])
-   JH_CHECK_XML_CATALOG([-//OASIS//DTD DocBook XML V4.3//EN],
-     [DocBook XML DTD V4.3], [have_docbookdtd=yes], [have_docbookdtd=no])
-   JH_CHECK_XML_CATALOG(
-     [http://docbook.sourceforge.net/release/xsl/current/html/refentry.xsl],
-     [DocBook XSL Stylesheets], [have_docbookxsl=yes], [have_docbookxsl=no])
-   AS_IF([test "x$have_xsltproc" = "xyes" -a "x$have_docbookdtd" = "xyes" \
-     -a "x$have_docbookxsl" = "xyes"],
-     [have_manutils=yes],
-     [AS_IF([test "x$enable_man" = "xyes"],
-       [AC_MSG_ERROR(
-         [manpage generation requested but required utilities were not found])])
-      have_manutils=no])],
-  [have_manutils=no])
-
-AM_CONDITIONAL([ENABLE_MAN], [test "x$have_manutils" = "xyes"])
-
 # Mallard help
 AX_REQUIRE_DEFINED([YELP_HELP_INIT])
 YELP_HELP_INIT
@@ -197,8 +171,6 @@ GLIB_GSETTINGS
 
 AC_CONFIG_FILES([
 Makefile
-docs/reference/Makefile
-docs/reference/version.xml
 data/cheese.pc
 data/cheese-gtk.pc
 data/org.gnome.Cheese.desktop.in

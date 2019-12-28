@@ -422,37 +422,13 @@ lcov-clean:
 	$(AM_V_at)find . -name '*.gcda' -exec rm -f {} +
 endif
 
-# gtk-doc
-gtkdoc_builddir = $(top_builddir)/docs/reference
-gtkdoc_distdir = $(top_distdir)/docs/reference
-gtkdoc_srcdir = $(top_srcdir)/docs/reference
-
 all-local: $(bin_PROGRAMS)
-	cd $(gtkdoc_builddir) && $(MAKE) $(AM_MAKEFLAGS) all
 # run make test as part of make check.
 check-local: test
-	cd $(gtkdoc_builddir) && $(MAKE) $(AM_MAKEFlAGS) check
 clean-local: lcov-clean
-	cd $(gtkdoc_builddir) && if test -e Makefile ; then \
-		$(MAKE) $(AM_MAKEFLAGS) clean ; \
-	fi
 	find . -name '*.gcno' -exec rm -f {} +
-distclean-local:
-	cd $(gtkdoc_builddir) && $(MAKE) $(AM_MAKEFLAGS) distclean
-docs: $(lib_LTLIBRARIES)
-	cd $(gtkdoc_builddir) && $(MAKE) $(AM_MAKEFLAGS) docs
-install-data-local:
-	cd $(gtkdoc_builddir) && $(MAKE) $(AM_MAKEFLAGS) install-data
-uninstall-local:
-	cd $(gtkdoc_builddir) && $(MAKE) $(AM_MAKEFLAGS) uninstall
 
 dist-hook: git-changelog-hook
-	$(MKDIR_P) $(gtkdoc_distdir)
-	cp $(gtkdoc_srcdir)/Makefile.am $(gtkdoc_srcdir)/Makefile.in $(gtkdoc_distdir)
-	cd $(gtkdoc_builddir) && $(MAKE) $(AM_MAKEFLAGS) \
-	  distdir="../../$(gtkdoc_distdir)" \
-	  top_distdir="../../$(top_distdir)" \
-	  dist-hook
 
 dist_noinst_DATA = \
 	ChangeLog.pre-git \
@@ -462,12 +438,6 @@ dist_noinst_DATA = \
 	$(noinst_resource_files) \
 	$(service_in_files) \
 	data/org.gnome.Cheese.gresource.xml \
-	build-aux/test-driver \
-	$(gtkdoc_srcdir)/cheese-docs.xml \
-	$(gtkdoc_srcdir)/cheese-sections.txt \
-	$(gtkdoc_srcdir)/cheese.xml \
-	$(gtkdoc_srcdir)/version.xml.in \
-	gtk-doc.make \
 	$(noinst_libcheese_headers) \
 	$(noinst_libcheese_gtk_headers) \
 	libcheese/cheese-gtk.symbols \
@@ -504,7 +474,6 @@ MAINTAINERCLEANFILES = \
 	build-aux/install-sh \
 	build-aux/ltmain.sh \
 	build-aux/missing \
-	build-aux/test-driver \
 	aclocal.m4 \
 	config.h.n \
 	$(gsettings_SCHEMAS:.xml=.valid) \
@@ -514,9 +483,7 @@ MAINTAINERCLEANFILES = \
 
 AM_DISTCHECK_CONFIGURE_FLAGS = \
 	--enable-appdata-check \
-	--enable-gtk-doc \
-	--enable-introspection \
-	--enable-man
+	--enable-introspection
 
 CHANGELOG_START = 2.26.0
 

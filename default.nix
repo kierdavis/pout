@@ -1,7 +1,7 @@
 { stdenv, intltool, wrapGAppsHook, libcanberra-gtk3
 , pkgconfig, gtk3, glib, clutter-gtk, clutter-gst, udev, gst_all_1, itstool
-, libgudev, vala, docbook_xml_dtd_43, docbook_xsl, appstream-glib
-, libxslt, gtk-doc, libtool
+, libgudev, vala, appstream-glib
+, libtool
 , librsvg, gdk_pixbuf, gnome3, libxml2 }:
 
 with gnome3;
@@ -17,20 +17,13 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     pkgconfig intltool itstool vala wrapGAppsHook libxml2 appstream-glib
-    libxslt docbook_xml_dtd_43 docbook_xsl
-    gtk-doc yelp-tools gnome-common libtool
+    yelp-tools gnome-common libtool
   ];
   buildInputs = [ gtk3 glib gnome-video-effects
                   gdk_pixbuf adwaita-icon-theme librsvg udev gst_all_1.gstreamer
                   gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gnome-desktop
                   gst_all_1.gst-plugins-bad clutter-gtk clutter-gst
                   libcanberra-gtk3 libgudev ];
-
-  outputs = [ "out" "man" ];
-
-  patches = [
-    gtk-doc.respect_xml_catalog_files_var_patch
-  ];
 
   # autogen.sh automatically runs configure after doing the automake/autoconf dance.
   configureScript = "./autogen.sh";
