@@ -24,7 +24,6 @@
 
 #include "cheese-camera.h"
 #include "cheese-widget-private.h"
-#include "cheese-flash.h"
 #include "cheese-avatar-widget.h"
 #include "um-crop-area.h"
 
@@ -59,7 +58,6 @@ typedef struct
   GtkWidget *take_button;
   GtkWidget *take_again_button;
   GtkSizeGroup *sizegroup;
-  CheeseFlash *flash;
   gulong photo_taken_id;
 } CheeseAvatarWidgetPrivate;
 
@@ -121,7 +119,6 @@ take_button_clicked_cb (GtkButton           *button,
   }
   if (cheese_camera_take_photo_pixbuf (CHEESE_CAMERA (camera)))
   {
-    cheese_flash_fire (CHEESE_FLASH (priv->flash));
     ca_gtk_play_for_widget (GTK_WIDGET (widget), 0,
                             CA_PROP_EVENT_ID, "camera-shutter",
                             CA_PROP_MEDIA_ROLE, "event",
@@ -239,7 +236,6 @@ cheese_avatar_widget_init (CheeseAvatarWidget *widget)
 
     priv = cheese_avatar_widget_get_instance_private (widget);
 
-  priv->flash = cheese_flash_new (GTK_WIDGET (widget));
 
   priv->notebook = gtk_notebook_new ();
   g_object_set(G_OBJECT (priv->notebook), "margin", 12, NULL);
@@ -289,7 +285,6 @@ cheese_avatar_widget_finalize (GObject *object)
 
     priv = cheese_avatar_widget_get_instance_private (CHEESE_AVATAR_WIDGET (object));
 
-  g_clear_object (&priv->flash);
   g_clear_object (&priv->sizegroup);
 
   G_OBJECT_CLASS (cheese_avatar_widget_parent_class)->finalize (object);
