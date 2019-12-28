@@ -33,7 +33,7 @@ internal class Cheese.Countdown : GLib.Object
   public Countdown (Clutter.Text countdown_actor)
   {
     this.countdown_actor = countdown_actor;
-    settings             = new GLib.Settings("org.gnome.Cheese");
+    settings             = new GLib.Settings ("org.gnome.Cheese");
   }
 
   ~Countdown ()
@@ -90,8 +90,8 @@ internal class Cheese.Countdown : GLib.Object
   public void start (CountdownCallback completed_callback)
   {
     this.completed_callback = completed_callback;
-    this.current_value = settings.get_int("countdown-duration");
-    running = true;
+    this.current_value      = settings.get_int ("countdown-duration");
+    running                 = true;
     countdown_actor.show ();
     fade_in ();
   }
