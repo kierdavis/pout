@@ -154,12 +154,6 @@ G_DEFINE_BOXED_TYPE (CheeseVideoFormat, cheese_video_format,
 
 /* the rest */
 
-static gint
-compare_formats (gconstpointer a, gconstpointer b)
-{
-  return pout_compare_formats(a, b);
-}
-
 /*
  * cheese_camera_device_filter_caps:
  * @device: the #CheeseCameraDevice
@@ -383,7 +377,7 @@ cheese_camera_device_add_format (CheeseCameraDevice *device,
             format->fr_numerator, format->fr_denominator);
 
     priv->formats = g_list_insert_sorted (priv->formats, format,
-                                          compare_formats);
+                                          pout_compare_formats);
 }
 
 /*
