@@ -321,17 +321,7 @@ uninstall-update-icon-cache:
 
 # Tests.
 check_PROGRAMS = \
-	tests/test-libcheese \
-	tests/test-libcheese-gtk
-
-tests_test_libcheese_gtk_SOURCES = \
-	tests/test-libcheese-gtk.c
-tests_test_libcheese_gtk_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
-tests_test_libcheese_gtk_LDADD = \
-	$(CHEESE_LIBS) \
-	$(CHEESE_GTK_LIBS) \
-	libcheese-gtk.la \
-	libcheese.la
+	tests/test-libcheese
 
 tests_test_libcheese_SOURCES = \
 	tests/test-libcheese.c
