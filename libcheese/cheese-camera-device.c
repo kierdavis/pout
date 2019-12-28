@@ -32,6 +32,8 @@
 
 #include "cheese-camera-device.h"
 
+#include "pout-rust.h"
+
 /**
  * SECTION:cheese-camera-device
  * @short_description: Object to represent a video capture device
@@ -159,6 +161,8 @@ compare_formats (gconstpointer a, gconstpointer b)
 {
   const CheeseVideoFormatFull *c = a;
   const CheeseVideoFormatFull *d = b;
+
+  printf("[pout] demo: 11 * 9 = %ld\n", pout_multiply(11, 9));
 
   /* descending sort for rectangle area */
   gint result = (d->width * d->height - c->width * c->height);

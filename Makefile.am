@@ -2,6 +2,11 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
 SUBDIRS = po help
 
+LIBPOUTRUST = rust/target/release/libpout.a
+
+$(LIBPOUTRUST): rust/Cargo.toml rust/src/*.rs
+	cd rust && cargo build --release
+
 enum_data = \
 	libcheese/cheese-enums.c \
 	libcheese/cheese-enums.h
@@ -75,13 +80,15 @@ libcheese_gtk_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"cheese-gtk\" \
 	-I$(top_builddir)/libcheese \
 	-I$(top_srcdir)/libcheese \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/rust/include
 
 libcheese_gtk_la_LIBADD = \
 	libcheese.la \
 	$(LIBM) \
 	$(CHEESE_LIBS) \
-	$(CHEESE_GTK_LIBS)
+	$(CHEESE_GTK_LIBS) \
+	$(LIBPOUTRUST)
 
 libcheese_gtk_la_LDFLAGS = \
 	-version-info $(LIBCHEESE_GTK_LT_VERSION) \
@@ -105,10 +112,12 @@ libcheese_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
 	-DG_LOG_DOMAIN=\"cheese\" \
 	-I$(top_builddir)/libcheese \
-	-I$(top_srcdir)/libcheese
+	-I$(top_srcdir)/libcheese \
+	-I$(top_srcdir)/rust/include
 
 libcheese_la_LIBADD = \
-	$(CHEESE_LIBS)
+	$(CHEESE_LIBS) \
+	$(LIBPOUTRUST)
 
 libcheese_la_LDFLAGS = \
 	-version-info $(LIBCHEESE_LT_VERSION) \

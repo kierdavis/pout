@@ -2,14 +2,15 @@
 , pkgconfig, gtk3, glib, clutter-gtk, clutter-gst, udev, gst_all_1, itstool
 , libgudev, vala, appstream-glib
 , libtool
-, librsvg, gdk_pixbuf, gnome3, libxml2 }:
+, librsvg, gdk_pixbuf, gnome3, libxml2
+, cargo, nix-gitignore }:
 
 with gnome3;
 
 stdenv.mkDerivation rec {
   name = "pout";
 
-  src = ./.;
+  src = nix-gitignore.gitignoreSourcePure ["rust/target"] ./.;
 
   passthru = {
     updateScript = gnome3.updateScript { packageName = "cheese"; attrPath = "gnome3.cheese"; };
@@ -17,7 +18,7 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     pkgconfig intltool itstool vala wrapGAppsHook libxml2 appstream-glib
-    yelp-tools gnome-common libtool
+    yelp-tools gnome-common libtool cargo
   ];
   buildInputs = [ gtk3 glib gnome-video-effects
                   gdk_pixbuf adwaita-icon-theme librsvg udev gst_all_1.gstreamer
