@@ -24,8 +24,6 @@
   #include <config.h>
 #endif
 
-#include <stdio.h>
-
 #include <glib.h>
 #include <glib/gi18n-lib.h>
 #include <gio/gio.h>
@@ -159,13 +157,7 @@ G_DEFINE_BOXED_TYPE (CheeseVideoFormat, cheese_video_format,
 static gint
 compare_formats (gconstpointer a, gconstpointer b)
 {
-  const CheeseVideoFormatFull *c = a;
-  const CheeseVideoFormatFull *d = b;
-
-  /* descending sort for rectangle area */
-  gint result = pout_compare_formats(a, b);
-  printf("[pout] compare_formats({%d, %d}, {%d, %d}) -> %d\n", (int)c->width, (int)c->height, (int)d->width, (int)d->height, (int)result);
-  return result;
+  return pout_compare_formats(a, b);
 }
 
 /*
