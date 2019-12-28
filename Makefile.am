@@ -245,7 +245,6 @@ pout_LDADD = \
 EXAMPLES = \
 	tests/cheese-test-camera \
 	tests/cheese-test-chooser \
-	tests/cheese-test-flash \
 	tests/cheese-test-monitor \
 	tests/cheese-test-widget
 
@@ -264,14 +263,12 @@ EXAMPLES_CPPFLAGS = \
 
 tests_cheese_test_camera_SOURCES = tests/cheese-test-camera.c
 tests_cheese_test_chooser_SOURCES = tests/cheese-test-chooser.c
-tests_cheese_test_flash_SOURCES = tests/cheese-test-flash.c
 tests_cheese_test_monitor_SOURCES = tests/cheese-test-monitor.c
 tests_cheese_test_widget_SOURCES = tests/cheese-test-widget.c
 tests_test_webcam_button_SOURCES = tests/test-webcam-button.c
 
 tests_cheese_test_camera_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_cheese_test_chooser_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
-tests_cheese_test_flash_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_cheese_test_monitor_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_cheese_test_widget_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
 tests_test_webcam_button_CPPFLAGS = $(EXAMPLES_CPPFLAGS)
@@ -281,11 +278,6 @@ tests_cheese_test_camera_LDADD = \
 	$(CHEESE_GTK_LIBS) \
 	libcheese.la
 tests_cheese_test_chooser_LDADD = \
-	$(CHEESE_LIBS) \
-	$(CHEESE_GTK_LIBS) \
-	libcheese.la \
-	libcheese-gtk.la
-tests_cheese_test_flash_LDADD = \
 	$(CHEESE_LIBS) \
 	$(CHEESE_GTK_LIBS) \
 	libcheese.la \
