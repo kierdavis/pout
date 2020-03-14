@@ -3,17 +3,14 @@
 , libgudev, vala, appstream-glib
 , libtool
 , librsvg, gdk_pixbuf, gnome3, libxml2
-, buildRustPackage, nix-gitignore }:
+, callPackage, nix-gitignore }:
 
 with gnome3;
 
 let
-  rustPkg = buildRustPackage rec {
-    name = "pout-rust";
-    src = nix-gitignore.gitignoreSourcePure ["target"] ./rust;
-    cargoSha256 = "1xsbzkfl7yb0z1bdaz6qn21a5b70zgc2yqsksbk6syng6r81ld8w";
-    doCheck = false;
-  };
+  rustPkg = (callPackage rust/Cargo.nix {
+    cratesIO = callPackage rust/crates-io.nix {};
+  }).pout {};
 
 in stdenv.mkDerivation rec {
   name = "pout";
@@ -21,7 +18,7 @@ in stdenv.mkDerivation rec {
   src = nix-gitignore.gitignoreSourcePure ["rust/target"] ./.;
 
   postUnpack = ''
-    cp ${rustPkg}/lib/libpout.a $sourceRoot/rust/libpout.a
+    cp ${rustPkg}/lib/libpout-*.a $sourceRoot/rust/libpout.a
   '';
 
   passthru = {
