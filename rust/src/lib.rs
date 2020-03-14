@@ -5,7 +5,7 @@ pub struct VideoFormatFull {
   width: gtypes::gint,
   height: gtypes::gint,
   fr_numerator: gtypes::gint,
-  ft_denominator: gtypes::gint,
+  fr_denominator: gtypes::gint,
 }
 
 #[no_mangle]
