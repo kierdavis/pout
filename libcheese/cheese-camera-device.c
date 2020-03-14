@@ -30,6 +30,8 @@
 
 #include "cheese-camera-device.h"
 
+#include "pout-rust.h"
+
 /**
  * SECTION:cheese-camera-device
  * @short_description: Object to represent a video capture device
@@ -123,8 +125,6 @@ typedef struct
   gint fr_numerator;
   gint fr_denominator;
 } CheeseVideoFormatFull;
-
-#include "pout-rust.h"
 
 GQuark cheese_camera_device_error_quark (void);
 
