@@ -46,7 +46,7 @@ static gboolean cheese_camera_device_initable_init (GInitable    *initable,
                                                     GCancellable *cancellable,
                                                     GError      **error);
 
-#define CHEESE_CAMERA_DEVICE_ERROR cheese_camera_device_error_quark ()
+#define CHEESE_CAMERA_DEVICE_ERROR pout_camera_device_error_quark ()
 
 /*
  * CheeseCameraDeviceError:
@@ -125,14 +125,6 @@ typedef struct
   gint fr_numerator;
   gint fr_denominator;
 } CheeseVideoFormatFull;
-
-GQuark cheese_camera_device_error_quark (void);
-
-GQuark
-cheese_camera_device_error_quark (void)
-{
-  return g_quark_from_static_string ("cheese-camera-device-error-quark");
-}
 
 /* CheeseVideoFormat */
 
