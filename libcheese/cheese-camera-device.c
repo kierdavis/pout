@@ -128,21 +128,8 @@ typedef struct
 
 /* CheeseVideoFormat */
 
-static CheeseVideoFormat *
-cheese_video_format_copy (const CheeseVideoFormat *format)
-{
-  return g_slice_dup (CheeseVideoFormat, format);
-}
-
-static void
-cheese_video_format_free (CheeseVideoFormat *format)
-{
-  if (G_LIKELY (format != NULL))
-    g_slice_free (CheeseVideoFormat, format);
-}
-
 G_DEFINE_BOXED_TYPE (CheeseVideoFormat, cheese_video_format,
-    cheese_video_format_copy, cheese_video_format_free)
+    pout_video_format_copy, pout_video_format_free)
 
 /* the rest */
 

@@ -17,15 +17,18 @@ rec {
       type = [ "staticlib" ];
       dependencies = mapFeatures features ([
         (cratesIO.crates."glib"."${deps."pout"."0.1.0"."glib"}" deps)
+        (cratesIO.crates."glib_sys"."${deps."pout"."0.1.0"."glib_sys"}" deps)
         (cratesIO.crates."gtypes"."${deps."pout"."0.1.0"."gtypes"}" deps)
       ]);
     };
     features_.pout."0.1.0" = deps: f: updateFeatures f (rec {
       glib."${deps.pout."0.1.0".glib}".default = true;
+      glib_sys."${deps.pout."0.1.0".glib_sys}".default = true;
       gtypes."${deps.pout."0.1.0".gtypes}".default = true;
       pout."0.1.0".default = (f.pout."0.1.0".default or true);
     }) [
       (cratesIO.features_.glib."${deps."pout"."0.1.0"."glib"}" deps)
+      (cratesIO.features_.glib_sys."${deps."pout"."0.1.0"."glib_sys"}" deps)
       (cratesIO.features_.gtypes."${deps."pout"."0.1.0"."gtypes"}" deps)
     ];
 
@@ -92,6 +95,7 @@ rec {
   deps.pkg_config."0.3.17" = {};
   deps.pout."0.1.0" = {
     glib = "0.9.3";
+    glib_sys = "0.9.1";
     gtypes = "0.2.0";
   };
   deps.proc_macro_hack."0.5.11" = {
