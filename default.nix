@@ -5,8 +5,6 @@
 , librsvg, gdk_pixbuf, gnome3, libxml2
 , callPackage, nix-gitignore }:
 
-with gnome3;
-
 let
   rustPkg = (callPackage rust/Cargo.nix {
     cratesIO = callPackage rust/crates-io.nix {};
@@ -27,11 +25,11 @@ in stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     pkgconfig intltool itstool vala wrapGAppsHook libxml2 appstream-glib
-    yelp-tools gnome-common libtool
+    gnome3.yelp-tools gnome3.gnome-common libtool
   ];
-  buildInputs = [ gtk3 glib gnome-video-effects
-                  gdk_pixbuf adwaita-icon-theme librsvg udev gst_all_1.gstreamer
-                  gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gnome-desktop
+  buildInputs = [ gtk3 glib gnome3.gnome-video-effects
+                  gdk_pixbuf gnome3.adwaita-icon-theme librsvg udev gst_all_1.gstreamer
+                  gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gnome3.gnome-desktop
                   gst_all_1.gst-plugins-bad clutter-gtk clutter-gst
                   libcanberra-gtk3 libgudev ];
 
@@ -41,12 +39,12 @@ in stdenv.mkDerivation rec {
   preFixup = ''
     gappsWrapperArgs+=(
       # Effects
-      --prefix XDG_DATA_DIRS : "${gnome-video-effects}/share"
+      --prefix XDG_DATA_DIRS : "${gnome3.gnome-video-effects}/share"
       # vp8enc preset
       --prefix GST_PRESET_PATH : "${gst_all_1.gst-plugins-good}/share/gstreamer-1.0/presets"
       # Thumbnailers
       --prefix XDG_DATA_DIRS : "${gdk_pixbuf}/share"
-      --prefix XDG_DATA_DIRS : "${totem}/share"
+      --prefix XDG_DATA_DIRS : "${gnome3.totem}/share"
     )
   '';
 
