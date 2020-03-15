@@ -640,6 +640,84 @@ rec {
 
 
 # end
+# gstreamer-sys-0.8.1
+
+  crates.gstreamer_sys."0.8.1" = deps: { features?(features_.gstreamer_sys."0.8.1" deps {}) }: buildRustCrate {
+    crateName = "gstreamer-sys";
+    version = "0.8.1";
+    description = "FFI bindings to libgstreamer-1.0";
+    authors = [ "Sebastian Dröge <sebastian@centricular.com>" ];
+    sha256 = "0w4y9qvzv0wi8l2z10ds7fi3fjck9m02s2jq5y2iyr19r753g6v0";
+    libName = "gstreamer_sys";
+    build = "build.rs";
+    dependencies = mapFeatures features ([
+      (crates."glib_sys"."${deps."gstreamer_sys"."0.8.1"."glib_sys"}" deps)
+      (crates."gobject_sys"."${deps."gstreamer_sys"."0.8.1"."gobject_sys"}" deps)
+      (crates."libc"."${deps."gstreamer_sys"."0.8.1"."libc"}" deps)
+    ]);
+
+    buildDependencies = mapFeatures features ([
+      (crates."pkg_config"."${deps."gstreamer_sys"."0.8.1"."pkg_config"}" deps)
+    ]);
+    features = mkFeatures (features."gstreamer_sys"."0.8.1" or {});
+  };
+  features_.gstreamer_sys."0.8.1" = deps: f: updateFeatures f (rec {
+    glib_sys."${deps.gstreamer_sys."0.8.1".glib_sys}".default = true;
+    gobject_sys."${deps.gstreamer_sys."0.8.1".gobject_sys}".default = true;
+    gstreamer_sys = fold recursiveUpdate {} [
+      { "0.8.1"."v1_0_10" =
+        (f.gstreamer_sys."0.8.1"."v1_0_10" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_2 or false) ||
+        (gstreamer_sys."0.8.1"."v1_2" or false); }
+      { "0.8.1"."v1_10" =
+        (f.gstreamer_sys."0.8.1"."v1_10" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_12 or false) ||
+        (gstreamer_sys."0.8.1"."v1_12" or false); }
+      { "0.8.1"."v1_12" =
+        (f.gstreamer_sys."0.8.1"."v1_12" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_14 or false) ||
+        (gstreamer_sys."0.8.1"."v1_14" or false); }
+      { "0.8.1"."v1_14" =
+        (f.gstreamer_sys."0.8.1"."v1_14" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_16 or false) ||
+        (gstreamer_sys."0.8.1"."v1_16" or false); }
+      { "0.8.1"."v1_16" =
+        (f.gstreamer_sys."0.8.1"."v1_16" or false) ||
+        (f.gstreamer_sys."0.8.1".dox or false) ||
+        (gstreamer_sys."0.8.1"."dox" or false); }
+      { "0.8.1"."v1_2" =
+        (f.gstreamer_sys."0.8.1"."v1_2" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_2_3 or false) ||
+        (gstreamer_sys."0.8.1"."v1_2_3" or false); }
+      { "0.8.1"."v1_2_3" =
+        (f.gstreamer_sys."0.8.1"."v1_2_3" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_4 or false) ||
+        (gstreamer_sys."0.8.1"."v1_4" or false); }
+      { "0.8.1"."v1_4" =
+        (f.gstreamer_sys."0.8.1"."v1_4" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_6 or false) ||
+        (gstreamer_sys."0.8.1"."v1_6" or false); }
+      { "0.8.1"."v1_6" =
+        (f.gstreamer_sys."0.8.1"."v1_6" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_8 or false) ||
+        (gstreamer_sys."0.8.1"."v1_8" or false); }
+      { "0.8.1"."v1_8" =
+        (f.gstreamer_sys."0.8.1"."v1_8" or false) ||
+        (f.gstreamer_sys."0.8.1".v1_10 or false) ||
+        (gstreamer_sys."0.8.1"."v1_10" or false); }
+      { "0.8.1".default = (f.gstreamer_sys."0.8.1".default or true); }
+    ];
+    libc."${deps.gstreamer_sys."0.8.1".libc}".default = true;
+    pkg_config."${deps.gstreamer_sys."0.8.1".pkg_config}".default = true;
+  }) [
+    (features_.glib_sys."${deps."gstreamer_sys"."0.8.1"."glib_sys"}" deps)
+    (features_.gobject_sys."${deps."gstreamer_sys"."0.8.1"."gobject_sys"}" deps)
+    (features_.libc."${deps."gstreamer_sys"."0.8.1"."libc"}" deps)
+    (features_.pkg_config."${deps."gstreamer_sys"."0.8.1"."pkg_config"}" deps)
+  ];
+
+
+# end
 # gtypes-0.2.0
 
   crates.gtypes."0.2.0" = deps: { features?(features_.gtypes."0.2.0" deps {}) }: buildRustCrate {

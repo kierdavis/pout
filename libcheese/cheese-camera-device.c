@@ -134,49 +134,6 @@ G_DEFINE_BOXED_TYPE (CheeseVideoFormat, cheese_video_format,
 /* the rest */
 
 /*
- * cheese_camera_device_filter_caps:
- * @device: the #CheeseCameraDevice
- * @caps: the #GstCaps that the device supports
- * @formats: an array of strings of video formats, in the form axb, where a and
- * b are in units of pixels
- *
- * Filter the supplied @caps with %CHEESE_MAXIMUM_RATE to only allow @formats
- * which can reach the desired framerate.
- *
- * Returns: the filtered #GstCaps
- */
-static GstCaps *
-cheese_camera_device_filter_caps (CheeseCameraDevice *device,
-                                  GstCaps *caps,
-                                  const gchar const *formats[])
-{
-  GstCaps *filter;
-  GstCaps *allowed;
-  gsize i;
-
-  filter = gst_caps_new_empty ();
-
-  for (i = 0; formats[i] != NULL; i++)
-  {
-    gst_caps_append (filter,
-                     gst_caps_new_simple (formats[i],
-                                          "framerate", GST_TYPE_FRACTION_RANGE,
-                                          0, 1, CHEESE_MAXIMUM_RATE, 1,
-                                          NULL));
-  }
-
-  allowed = gst_caps_intersect (caps, filter);
-
-  GST_DEBUG ("Supported caps %" GST_PTR_FORMAT, caps);
-  GST_DEBUG ("Filter caps %" GST_PTR_FORMAT, filter);
-  GST_DEBUG ("Filtered caps %" GST_PTR_FORMAT, allowed);
-
-  gst_caps_unref (filter);
-
-  return allowed;
-}
-
-/*
  * cheese_camera_device_get_highest_framerate:
  * @framerate: a #GValue holding a framerate cap
  * @numerator: destination to store the numerator of the highest rate
@@ -510,7 +467,7 @@ cheese_camera_device_get_caps (CheeseCameraDevice *device)
     caps = gst_caps_new_empty_simple ("video/x-raw");
 
   gst_caps_unref (priv->caps);
-  priv->caps = cheese_camera_device_filter_caps (device, caps, supported_formats);
+  priv->caps = pout_camera_device_filter_caps (device, caps, supported_formats);
 
   if (!gst_caps_is_empty (priv->caps))
     cheese_camera_device_update_format_table (device);

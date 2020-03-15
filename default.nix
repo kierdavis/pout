@@ -3,12 +3,18 @@
 , libgudev, vala, appstream-glib
 , libtool
 , librsvg, gdk_pixbuf, gnome3, libxml2
-, callPackage, nix-gitignore }:
+, callPackage, nix-gitignore, defaultCrateOverrides }:
 
 let
-  rustPkg = (callPackage rust/Cargo.nix {
+  rustPkg = ((callPackage rust/Cargo.nix {
     cratesIO = callPackage rust/crates-io.nix {};
-  }).pout {};
+  }).pout {}).override {
+    crateOverrides = defaultCrateOverrides // {
+      gstreamer-sys = _: {
+        buildInputs = [ glib ];
+      };
+    };
+  };
 
 in stdenv.mkDerivation rec {
   name = "pout";

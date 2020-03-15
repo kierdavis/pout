@@ -95,6 +95,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "gstreamer-sys"
+version = "0.8.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "glib-sys 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gobject-sys 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.67 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pkg-config 0.3.17 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "gtypes"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -128,7 +139,9 @@ version = "0.1.0"
 dependencies = [
  "glib 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "glib-sys 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gstreamer-sys 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "gtypes 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.67 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -193,6 +206,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum glib 0.9.3 (registry+https://github.com/rust-lang/crates.io-index)" = "40fb573a09841b6386ddf15fd4bc6655b4f5b106ca962f57ecaecde32a0061c0"
 "checksum glib-sys 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)" = "95856f3802f446c05feffa5e24859fe6a183a7cb849c8449afc35c86b1e316e2"
 "checksum gobject-sys 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)" = "31d1a804f62034eccf370006ccaef3708a71c31d561fee88564abe71177553d9"
+"checksum gstreamer-sys 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)" = "1d18da01b97d0ab5896acd5151e4c155acefd0e6c03c3dd24dd133ba054053db"
 "checksum gtypes 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "c8852d77575edf1670e115f3144950fc78754cef78ef0d8453e1e62bb0ec3c41"
 "checksum lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 "checksum libc 0.2.67 (registry+https://github.com/rust-lang/crates.io-index)" = "eb147597cdf94ed43ab7a9038716637d2d1bf2bc571da995d0028dec06bd3018"
