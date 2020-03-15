@@ -1,5 +1,5 @@
-extern crate glib;
 extern crate glib_sys;
+extern crate gobject_sys;
 extern crate gtypes;
 extern crate gstreamer_sys;
 extern crate libc;
@@ -10,7 +10,7 @@ const POUT_MAXIMUM_RATE: gtypes::guint = 30;
 
 #[repr(C)]
 pub struct PoutCameraDevice {
-  parent: glib::Object,
+  parent: gobject_sys::GObject,
   unused: *mut libc::c_void,
 }
 
@@ -44,8 +44,10 @@ pub extern fn pout_format_list_insert_sorted(list: *mut glib_sys::GList, data: g
 }
 
 #[no_mangle]
-pub extern fn pout_camera_device_error_quark() -> glib::Quark {
-  glib::Quark::from_string("pout-camera-device-error-quark")
+pub extern fn pout_camera_device_error_quark() -> glib_sys::GQuark {
+  unsafe {
+    glib_sys::g_quark_from_string(CString::new("pout-camera-device-error-quark").unwrap().as_ptr())
+  }
 }
 
 #[no_mangle]

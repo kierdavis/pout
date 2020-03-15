@@ -18,6 +18,7 @@ rec {
       dependencies = mapFeatures features ([
         (cratesIO.crates."glib"."${deps."pout"."0.1.0"."glib"}" deps)
         (cratesIO.crates."glib_sys"."${deps."pout"."0.1.0"."glib_sys"}" deps)
+        (cratesIO.crates."gobject_sys"."${deps."pout"."0.1.0"."gobject_sys"}" deps)
         (cratesIO.crates."gstreamer_sys"."${deps."pout"."0.1.0"."gstreamer_sys"}" deps)
         (cratesIO.crates."gtypes"."${deps."pout"."0.1.0"."gtypes"}" deps)
         (cratesIO.crates."libc"."${deps."pout"."0.1.0"."libc"}" deps)
@@ -26,6 +27,7 @@ rec {
     features_.pout."0.1.0" = deps: f: updateFeatures f (rec {
       glib."${deps.pout."0.1.0".glib}".default = true;
       glib_sys."${deps.pout."0.1.0".glib_sys}".default = true;
+      gobject_sys."${deps.pout."0.1.0".gobject_sys}".default = true;
       gstreamer_sys."${deps.pout."0.1.0".gstreamer_sys}".default = true;
       gtypes."${deps.pout."0.1.0".gtypes}".default = true;
       libc."${deps.pout."0.1.0".libc}".default = true;
@@ -33,6 +35,7 @@ rec {
     }) [
       (cratesIO.features_.glib."${deps."pout"."0.1.0"."glib"}" deps)
       (cratesIO.features_.glib_sys."${deps."pout"."0.1.0"."glib_sys"}" deps)
+      (cratesIO.features_.gobject_sys."${deps."pout"."0.1.0"."gobject_sys"}" deps)
       (cratesIO.features_.gstreamer_sys."${deps."pout"."0.1.0"."gstreamer_sys"}" deps)
       (cratesIO.features_.gtypes."${deps."pout"."0.1.0"."gtypes"}" deps)
       (cratesIO.features_.libc."${deps."pout"."0.1.0"."libc"}" deps)
@@ -108,6 +111,7 @@ rec {
   deps.pout."0.1.0" = {
     glib = "0.9.3";
     glib_sys = "0.9.1";
+    gobject_sys = "0.9.1";
     gstreamer_sys = "0.8.1";
     gtypes = "0.2.0";
     libc = "0.2.67";
