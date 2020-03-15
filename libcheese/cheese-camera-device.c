@@ -355,8 +355,7 @@ cheese_camera_device_add_format (CheeseCameraDevice *device,
   GST_INFO ("%dx%d framerate %d/%d", format->width, format->height,
             format->fr_numerator, format->fr_denominator);
 
-    priv->formats = g_list_insert_sorted (priv->formats, format,
-                                          pout_compare_formats);
+    priv->formats = pout_format_list_insert_sorted(priv->formats, format);
 }
 
 /*

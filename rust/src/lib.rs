@@ -16,12 +16,18 @@ pub struct PoutVideoFormatFull {
   fr_denominator: gtypes::gint,
 }
 
-#[no_mangle]
-pub extern fn pout_compare_formats(a: gtypes::gconstpointer, b: gtypes::gconstpointer) -> gtypes::gint {
+extern fn pout_compare_formats(a: gtypes::gconstpointer, b: gtypes::gconstpointer) -> gtypes::gint {
   unsafe {
     let c = a as *const PoutVideoFormatFull;
     let d = b as *const PoutVideoFormatFull;
     (*d).width*(*d).height - (*c).width*(*c).height
+  }
+}
+
+#[no_mangle]
+pub extern fn pout_format_list_insert_sorted(list: *mut glib_sys::GList, data: gtypes::gpointer) -> *mut glib_sys::GList {
+  unsafe {
+    glib_sys::g_list_insert_sorted(list, data, Some(pout_compare_formats))
   }
 }
 
