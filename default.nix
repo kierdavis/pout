@@ -44,7 +44,6 @@ in stdenv.mkDerivation rec {
       --prefix GST_PRESET_PATH : "${gst_all_1.gst-plugins-good}/share/gstreamer-1.0/presets"
       # Thumbnailers
       --prefix XDG_DATA_DIRS : "${gdk_pixbuf}/share"
-      --prefix XDG_DATA_DIRS : "${gnome3.totem}/share"
     )
   '';
 
