@@ -12,5 +12,6 @@ extern GQuark pout_camera_device_error_quark();
 extern CheeseVideoFormat *pout_video_format_copy(const CheeseVideoFormat *);
 extern void pout_video_format_free(CheeseVideoFormat *);
 extern GstCaps *pout_camera_device_filter_caps(CheeseCameraDevice *, GstCaps *, gchar const *const *);
+extern void pout_camera_device_get_highest_framerate_fraction(const GValue *, gint *, gint *);
 
 #endif

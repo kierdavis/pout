@@ -154,8 +154,7 @@ cheese_camera_device_get_highest_framerate (const GValue *framerate,
 
   if (GST_VALUE_HOLDS_FRACTION (framerate))
   {
-    *numerator = gst_value_get_fraction_numerator (framerate);
-    *denominator = gst_value_get_fraction_denominator (framerate);
+    pout_camera_device_get_highest_framerate_fraction(framerate, numerator, denominator);
   }
   else if (GST_VALUE_HOLDS_ARRAY (framerate))
   {

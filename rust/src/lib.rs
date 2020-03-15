@@ -97,3 +97,11 @@ pub extern fn pout_camera_device_filter_caps(device: *mut PoutCameraDevice, caps
     allowed
   }
 }
+
+#[no_mangle]
+pub extern fn pout_camera_device_get_highest_framerate_fraction(framerate: *const gobject_sys::GValue, numerator: *mut gint, denominator: *mut gint) {
+  unsafe {
+    *numerator = gstreamer_sys::gst_value_get_fraction_numerator(framerate);
+    *denominator = gstreamer_sys::gst_value_get_fraction_denominator(framerate);
+  }
+}
