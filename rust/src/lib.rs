@@ -4,31 +4,33 @@ extern crate gtypes;
 extern crate gstreamer_sys;
 extern crate libc;
 
+use gtypes::{gchar, gconstpointer, gint, gpointer, guint};
+use libc::c_void;
 use std::ffi::CString;
 
-const POUT_MAXIMUM_RATE: gtypes::guint = 30;
+const POUT_MAXIMUM_RATE: guint = 30;
 
 #[repr(C)]
 pub struct PoutCameraDevice {
   parent: gobject_sys::GObject,
-  unused: *mut libc::c_void,
+  unused: *mut c_void,
 }
 
 #[repr(C)]
 pub struct PoutVideoFormat {
-  width: gtypes::gint,
-  height: gtypes::gint,
+  width: gint,
+  height: gint,
 }
 
 #[repr(C)]
 pub struct PoutVideoFormatFull {
-  width: gtypes::gint,
-  height: gtypes::gint,
-  fr_numerator: gtypes::gint,
-  fr_denominator: gtypes::gint,
+  width: gint,
+  height: gint,
+  fr_numerator: gint,
+  fr_denominator: gint,
 }
 
-extern fn pout_compare_formats(a: gtypes::gconstpointer, b: gtypes::gconstpointer) -> gtypes::gint {
+extern fn pout_compare_formats(a: gconstpointer, b: gconstpointer) -> gint {
   unsafe {
     let c = a as *const PoutVideoFormatFull;
     let d = b as *const PoutVideoFormatFull;
@@ -37,7 +39,7 @@ extern fn pout_compare_formats(a: gtypes::gconstpointer, b: gtypes::gconstpointe
 }
 
 #[no_mangle]
-pub extern fn pout_format_list_insert_sorted(list: *mut glib_sys::GList, data: gtypes::gpointer) -> *mut glib_sys::GList {
+pub extern fn pout_format_list_insert_sorted(list: *mut glib_sys::GList, data: gpointer) -> *mut glib_sys::GList {
   unsafe {
     glib_sys::g_list_insert_sorted(list, data, Some(pout_compare_formats))
   }
@@ -53,7 +55,7 @@ pub extern fn pout_camera_device_error_quark() -> glib_sys::GQuark {
 #[no_mangle]
 pub extern fn pout_video_format_copy(format: *const PoutVideoFormat) -> *mut PoutVideoFormat {
   unsafe {
-    glib_sys::g_slice_copy(std::mem::size_of::<PoutVideoFormat>(), format as gtypes::gconstpointer) as *mut PoutVideoFormat
+    glib_sys::g_slice_copy(std::mem::size_of::<PoutVideoFormat>(), format as gconstpointer) as *mut PoutVideoFormat
   }
 }
 
@@ -61,7 +63,7 @@ pub extern fn pout_video_format_copy(format: *const PoutVideoFormat) -> *mut Pou
 pub extern fn pout_video_format_free(format: *mut PoutVideoFormat) {
   if !format.is_null() {
     unsafe {
-      glib_sys::g_slice_free1(std::mem::size_of::<PoutVideoFormat>(), format as gtypes::gpointer);
+      glib_sys::g_slice_free1(std::mem::size_of::<PoutVideoFormat>(), format as gpointer);
     }
   }
 }
@@ -69,7 +71,7 @@ pub extern fn pout_video_format_free(format: *mut PoutVideoFormat) {
 /// Filter the supplied caps with POUT_MAXIMUM_RATE to only allow formats
 /// which can reach the desired framerate.
 #[no_mangle]
-pub extern fn pout_camera_device_filter_caps(device: *mut PoutCameraDevice, caps: *mut gstreamer_sys::GstCaps, formats: *const *const gtypes::gchar) -> *mut gstreamer_sys::GstCaps {
+pub extern fn pout_camera_device_filter_caps(device: *mut PoutCameraDevice, caps: *mut gstreamer_sys::GstCaps, formats: *const *const gchar) -> *mut gstreamer_sys::GstCaps {
   let framerate = CString::new("framerate").unwrap();
   let mut i = 0;
   unsafe {
@@ -85,7 +87,7 @@ pub extern fn pout_camera_device_filter_caps(device: *mut PoutCameraDevice, caps
           1,
           POUT_MAXIMUM_RATE,
           1,
-          std::ptr::null::<*const gtypes::gchar>(),
+          std::ptr::null::<*const gchar>(),
         ),
       );
       i = i + 1;
